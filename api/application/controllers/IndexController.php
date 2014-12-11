@@ -57,7 +57,7 @@ class IndexController extends Zend_Controller_Action
     {
         $req = $this->getRequest();
 
-        if ($req->isPost() || 1) {
+        if ($req->isPost()) {
             $imageUrl = filter_var(urldecode($req->getParam('imageUrl', FILTER_SANITIZE_URL)));
             $question = filter_var($req->getParam('question', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $validPoints = explode(',', $req->getParam('validPoints'));
