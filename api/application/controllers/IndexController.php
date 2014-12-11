@@ -24,13 +24,13 @@ class IndexController extends Zend_Controller_Action
         $this->resp['status'] = true;
         $this->resp['data'] = [
             'service' => 'MONAD',
-            'testNum' => $this->service->test()
+            'time' => $this->service->test()
         ];
     }
 
     public function getQuestionAction()
     {
-
+        $this->resp['data'] = $this->service->getRandomQuestion
     }
 
     /**

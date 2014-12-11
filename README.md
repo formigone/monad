@@ -24,6 +24,8 @@ at ```http://localhost:8080/...```.
 
 To test your set up, go to ```http://localhost:8080/index/```
 
+***You may need to delete a couple of ```require``` or ```include``` statements from the zf1 project inside vendors
+
 APIs
 ----
 

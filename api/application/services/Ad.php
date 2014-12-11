@@ -12,7 +12,7 @@ class Application_Service_Ad {
 
     public function test()
     {
-        return 23;
+        return time();
     }
 
     public function insertQuestion($imageUrl, $question, array $validPoints)
