@@ -1,0 +1,24 @@
+{
+    "name": "MONAD",
+    "require": {
+        "zf1/zend-db": "~1.12",
+        "zf1/zend-config": "~1.12",
+        "zf1/zend-controller": "~1.12",
+        "zf1/zend-application": "~1.12",
+        "zf1/zend-http": "~1.12",
+        "zf1/zend-json": "~1.12",
+        "zf1/zend-layout": "~1.12",
+        "zf1/zend-loader": "~1.12",
+        "zf1/zend-filter": "~1.12"
+    },
+    "authors": [
+        {
+            "name": "Rodrigo Silveira",
+            "email": "rsilveira@deseretdigital.com"
+        },
+        {
+            "name": "Brendan Warkentin",
+            "email": "bwarkentin@deseretdigital.com"
+        }
+    ]
+}
