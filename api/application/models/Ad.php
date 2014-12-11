@@ -31,4 +31,17 @@ class Application_Model_Ad
 
         return $select->query()->fetch();
     }
+
+    public function get($questionId)
+    {
+        $select = $this->db->select()
+            ->from(self::TABLE_MONAD_AD, ['id', 'validPoints'])
+            ->where('id = ?', $questionId)
+            ->limit(1);
+
+        $ad = $select->query()->fetch();
+        $ad['validPoints'] = json_decode($ad['validPoints']);
+
+        return $ad;
+    }
 }

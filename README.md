@@ -31,10 +31,12 @@ APIs
 
 ```
     /**
-     * Get an ad image, with its accompanying required action.
+     * Get a random ad image, with its accompanying required action.
      *
      * @path /index/get-question
-     * @return [id{int}, image{string}, question{string}]
+     * @method GET
+     *
+     * @return object [id{int}, image{string}, question{string}]
      */
 ```
 

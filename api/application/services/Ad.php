@@ -1,6 +1,7 @@
 <?php
 
-class Application_Service_Ad {
+class Application_Service_Ad
+{
     /** @var  Application_Model_Ad */
     protected $model;
 
@@ -23,5 +24,15 @@ class Application_Service_Ad {
     public function getRandomQuestion()
     {
         return $this->model->getRandomQuestion();
+    }
+
+    public function verify($questionId, array $respPoints)
+    {
+        $question = $this->model->get($questionId);
+
+
+        // todo: check that respPoints is within $question['validPoints']
+
+        return true;
     }
 }

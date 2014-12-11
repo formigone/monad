@@ -28,6 +28,14 @@ class IndexController extends Zend_Controller_Action
         ];
     }
 
+    /**
+     * Get a random ad image, with its accompanying required action.
+     *
+     * @path /index/get-question
+     * @method GET
+     *
+     * @return object [id{int}, image{string}, question{string}]
+     */
     public function getQuestionAction()
     {
         $this->resp['data'] = $this->service->getRandomQuestion();
@@ -59,6 +67,24 @@ class IndexController extends Zend_Controller_Action
             }
 
             $this->resp['status'] = $this->service->insertQuestion($imageUrl, $question, $validPoints);
+        } else {
+            $this->resp['data'] = 'Invalid action';
+        }
+    }
+
+    public function verifyAction()
+    {
+        $req = $this->getRequest();
+
+        if ($req->isPost() || 1) {
+            $questionId = (int)$req->getParam('id');
+            $respPoints = explode(',', $req->getParam('resp'));
+
+            foreach ($respPoints as &$point) {
+                $point = (int) $point;
+            }
+
+            $this->resp['status'] = $this->service->verify($questionId, $respPoints);
         } else {
             $this->resp['data'] = 'Invalid action';
         }
