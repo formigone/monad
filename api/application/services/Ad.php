@@ -29,10 +29,11 @@ class Application_Service_Ad
     public function verify($questionId, array $respPoints)
     {
         $question = $this->model->get($questionId);
+        $targetPts = $question['validPoints'];
 
-
-        // todo: check that respPoints is within $question['validPoints']
-
-        return true;
+        return $respPoints[0] >= $targetPts[0] &&
+            $respPoints[0] <= $targetPts[2] &&
+            $respPoints[1] >= $targetPts[1] &&
+            $respPoints[1] <= $targetPts[3];
     }
 }

@@ -44,7 +44,7 @@ class IndexController extends Zend_Controller_Action
     /**
      * Create a new ad with an accompanying required action.
      *
-     * @path /insertQuestion
+     * @path /index/insertQuestion
      * @method POST
      *
      * @postParam imageUrl string Absolute URL (**url encoded**) to ad image
@@ -62,16 +62,31 @@ class IndexController extends Zend_Controller_Action
             $question = filter_var($req->getParam('question', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $validPoints = explode(',', $req->getParam('validPoints'));
 
-            foreach ($validPoints as &$point) {
-                $point = (int) $point;
-            }
+            if (count($validPoints) === 4) {
+                foreach ($validPoints as &$point) {
+                    $point = (int) $point;
+                }
 
-            $this->resp['status'] = $this->service->insertQuestion($imageUrl, $question, $validPoints);
+                $this->resp['status'] = $this->service->insertQuestion($imageUrl, $question, $validPoints);
+            } else {
+                $this->resp['data'] = 'Invalid target coordinates';
+            }
         } else {
             $this->resp['data'] = 'Invalid action';
         }
     }
 
+    /**
+     * Verify that a given [x,y] is within the required target for a given ad
+     *
+     * @path /index/verify
+     * @method POST
+     *
+     * @postParam id int Ad id
+     * @postParam resp string Two Comma-separated ints representing the [x,y] coords from the user action
+     *
+     * @return string|json
+     */
     public function verifyAction()
     {
         $req = $this->getRequest();
@@ -80,11 +95,15 @@ class IndexController extends Zend_Controller_Action
             $questionId = (int)$req->getParam('id');
             $respPoints = explode(',', $req->getParam('resp'));
 
-            foreach ($respPoints as &$point) {
-                $point = (int) $point;
-            }
+            if (count($respPoints) === 2) {
+                foreach ($respPoints as &$point) {
+                    $point = (int)$point;
+                }
 
-            $this->resp['status'] = $this->service->verify($questionId, $respPoints);
+                $this->resp['status'] = $this->service->verify($questionId, $respPoints);
+            } else {
+                $this->resp['data'] = 'Invalid target coordinates';
+            }
         } else {
             $this->resp['data'] = 'Invalid action';
         }

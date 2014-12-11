@@ -54,3 +54,17 @@ APIs
      * @return string|json
      */
 ```
+
+```
+    /**
+     * Verify that a given [x,y] is within the required target for a given ad
+     *
+     * @path /index/verify
+     * @method POST
+     *
+     * @postParam id int Ad id
+     * @postParam resp string Two Comma-separated ints representing the [x,y] coords from the user action
+     *
+     * @return string|json
+     */
+```
