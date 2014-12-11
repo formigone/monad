@@ -19,4 +19,9 @@ class Application_Service_Ad {
     {
         return $this->model->insertQuestion($imageUrl, $question, $validPoints);
     }
+
+    public function getRandomQuestion()
+    {
+        return $this->model->getRandomQuestion();
+    }
 }

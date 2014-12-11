@@ -30,7 +30,7 @@ class IndexController extends Zend_Controller_Action
 
     public function getQuestionAction()
     {
-        $this->resp['data'] = $this->service->getRandomQuestion
+        $this->resp['data'] = $this->service->getRandomQuestion();
     }
 
     /**

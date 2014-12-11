@@ -21,4 +21,14 @@ class Application_Model_Ad
             ]
         );
     }
+
+    public function getRandomQuestion()
+    {
+        $select = $this->db->select()
+            ->from(['Ad' => self::TABLE_MONAD_AD], ['id', 'image', 'question'])
+            ->limit(1)
+            ->order(new Zend_Db_Expr('RAND()'));
+
+        return $select->query()->fetch();
+    }
 }
