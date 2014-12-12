@@ -16,7 +16,7 @@ From a terminal, navigate to /api and:
 
 ```
     composer install
-    php5 -S localhost:8080
+    php5 -S localhost:8080 -t public
 ```
 
 This will start a local PHP server on ```localhost``` port ```8080```. This way you can access the backend API
