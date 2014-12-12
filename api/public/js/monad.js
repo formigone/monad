@@ -53,9 +53,9 @@ var MonadWidget = function(service) {
         '<img src="http://media.ksl.com/monad-002.jpg" style="display: block; margin: 0 auto;">' +
         '</div>' +
         '<div id="monadAction">' +
-            '<p style="padding: 10px 20px; border-top: 4px solid #1E4D8C; font-weight: 300; font-family: sans-serif; font-size: 1.5em; color: #fff"></p>' +
+        '<p style="padding: 10px 20px; border-top: 4px solid #1E4D8C; font-weight: 300; font-family: sans-serif; font-size: 1.5em; color: #fff"></p>' +
         '</div>' +
-    '</div>';
+        '</div>';
 
     this.widget = document.createElement('div');
     this.widget.innerHTML = tmpl;
@@ -130,10 +130,13 @@ MonadWidget.prototype.init = function() {
     });
 };
 
-(function(){
-    var container = document.querySelector('[data-monad]');
-    var monadService = new MonadService();
-    var monad = new MonadWidget(monadService);
+var MonadBuilder = function(service) {
+    /** @type {MonadService} */
+    this.service = service;
 
-    monad.bindTo(container);
-}());
+    this.init();
+};
+
+MonadWidget.prototype.init = function(){
+
+};
