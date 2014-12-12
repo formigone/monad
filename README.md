@@ -2,11 +2,11 @@ MONAD
 =====
 
 ```
-Monetizable
-O
-N
-Alternate captcha system that we ma-
-De up
+  Monetizable
+  O
+  N
+  Alternative for captcha that we
+maDe up
 ```
 
 SETTING UP A LOCAL SERVER

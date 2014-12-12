@@ -38,6 +38,7 @@ class IndexController extends Zend_Controller_Action
      */
     public function getQuestionAction()
     {
+        $this->resp['status'] = true;
         $this->resp['data'] = $this->service->getRandomQuestion();
     }
 
