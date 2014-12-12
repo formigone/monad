@@ -440,7 +440,7 @@ MonadCanvasBuilder.prototype.render = function() {
 };
 
 /**
- * 
+ *
  */
 MonadCanvasBuilder.prototype.save = function(){
     if (this.ptPoly.length === 0) {
