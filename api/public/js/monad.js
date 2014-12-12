@@ -8,7 +8,7 @@ MonadService.prototype.getQuestion = function() {
         xhr.onreadystatechange = function(){
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var resp = JSON.parse(xhr.responseText);
-                resolve(resp.data);
+                resolve({question: resp.data, session: resp.session});
             }
         };
 
@@ -19,20 +19,20 @@ MonadService.prototype.getQuestion = function() {
     return promise;
 };
 
-MonadService.prototype.verify = function(adId, x, y) {
+MonadService.prototype.verify = function(adId, session, x, y) {
     var url = '/index/verify';
     var promise = new Promise(function (resolve, reject){
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var resp = JSON.parse(xhr.responseText);
-                resolve(resp.status);
+                resolve({status: resp.status, token: resp.token});
             }
         };
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        xhr.send('id=' + adId + '&resp=' + x + ',' + y);
+        xhr.send('id=' + adId + '&session=' + session + '&resp=' + x + ',' + y);
     });
 
     return promise;
@@ -151,15 +151,17 @@ MonadWidget.prototype.calculateXY = function(event) {
 MonadWidget.prototype.init = function() {
     var scope = this;
     var attempts = 0;
-    var maxAttempts = 3;
+    var maxAttempts = 30;
     var solved = false;
+    var session = null;
 
-    this.service.getQuestion().then(function(question){
-        scope.currentQuestion = question;
-        scope.img.src = question.image;
+    this.service.getQuestion().then(function(data){
+        scope.session = data.session;
+        scope.currentQuestion = data.question;
+        scope.img.src = data.question.image;
         scope.img.style.display = 'block';
 
-        scope.actionBarContent.textContent = question.question;
+        scope.actionBarContent.textContent = data.question.question;
         scope.actionBar.style.display = 'block';
     });
 
@@ -179,13 +181,12 @@ MonadWidget.prototype.init = function() {
         if (attempts <= maxAttempts) {
             var cords = scope.calculateXY(event);
             var x = cords[0], y = cords[1];
-            console.log(cords);
 
             scope.actionBar.style.backgroundColor = scope.colors.default;
             scope.titleBar.style.backgroundColor = scope.colors.default;
 
-            scope.service.verify(scope.currentQuestion.id, x, y).then(function(status){
-                if(status) {
+            scope.service.verify(scope.currentQuestion.id, scope.session, x, y).then(function(data){
+                if(data.status) {
                     scope.titleBar.style.backgroundColor = scope.colors.success;
                     scope.actionBar.style.backgroundColor = scope.colors.success;
 
@@ -196,6 +197,12 @@ MonadWidget.prototype.init = function() {
                     successElement.name = 'monadStatus';
                     successElement.value = 'valid';
                     scope.widget.parentElement.appendChild(successElement);
+
+                    var tokenElement = document.createElement('input');
+                    tokenElement.type = 'hidden';
+                    tokenElement.name = 'monadToken';
+                    tokenElement.value = data.token;
+                    scope.widget.parentElement.appendChild(tokenElement);
                 } else {
                     scope.titleBar.style.backgroundColor = scope.colors.fail;
                     scope.actionBar.style.backgroundColor = scope.colors.fail;

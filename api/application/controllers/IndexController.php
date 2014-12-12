@@ -4,13 +4,16 @@ class IndexController extends Zend_Controller_Action
 {
     /** @var Application_Service_Ad service */
     protected $service;
+    protected $session;
     protected $resp;
 
     public function init()
     {
         $this->service = new Application_Service_Ad();
+        $this->session = new Application_Service_Session();
         $this->resp = [
             'status' => false,
+            'session' => null,
             'data' => null
         ];
     }
@@ -39,6 +42,7 @@ class IndexController extends Zend_Controller_Action
     public function getQuestionAction()
     {
         $this->resp['status'] = true;
+        $this->resp['session'] = $this->session->newSession();
         $this->resp['data'] = $this->service->getRandomQuestion();
     }
 
@@ -92,6 +96,15 @@ class IndexController extends Zend_Controller_Action
     {
         $req = $this->getRequest();
 
+        $session = (int)$req->getParam('session');
+        $token = $this->session->seekToken($session);
+        if(empty($token['token']) || $token['attempts'] > 3) {
+            $token = false;
+        } else {
+            $token = $token['token'];
+        }
+        $this->resp['token'] = $token;
+
         if ($req->isPost() || 1) {
             $questionId = (int)$req->getParam('id');
             $respPoints = explode(',', $req->getParam('resp'));
@@ -102,6 +115,10 @@ class IndexController extends Zend_Controller_Action
                 }
 
                 $this->resp['status'] = $this->service->verify($questionId, $respPoints);
+                $this->resp['status'] = $this->resp['status'] && $token;
+                if($this->resp['status']) {
+                    $this->session->deleteSession($session);
+                }
             } else {
                 $this->resp['data'] = 'Invalid target coordinates';
             }

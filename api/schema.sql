@@ -5,6 +5,12 @@ CREATE TABLE monadAd (
   validPoints TEXT         NOT NULL
 ) ENGINE =innodb;
 
+CREATE TABLE monadSession (
+  id          INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  token       VARCHAR(20) NOT NULL,
+  attempts    INT UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=innodb;
+
 INSERT INTO monadAd (image, question, validPoints) VALUES
 ('http://media.ksl.com/monad-001.jpg', 'Click or tap on the license plate', '[496,243,576,274]'),
 ('http://media.ksl.com/monad-001.jpg', 'Click or tap on the big, huge Porsche logo', '[37,17,624,121]'),
