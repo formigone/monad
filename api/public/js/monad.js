@@ -74,10 +74,10 @@ MonadService.prototype.insert = function(imgUrl, question, x1, y1, x2, y2) {
  * @constructor
  */
 var MonadWidget = function(service) {
-    var tmpl = '<div style="box-shadow: 0 5px 10px #aaa; width: 640px; margin: 0 auto;">' +
+    var tmpl = '<div style="box-shadow: 0 5px 10px #aaa; width: 100%; margin: 0 auto;">' +
         '<h3 id="monadTitle" style="margin: 0; padding: 10px 20px; color: #fff; font-family: serif; font-weight: bold; font-size: 2em;">MONAD</h3>' +
         '<div id="monadScreen" style="margin: 0; padding: 0;">' +
-        '<img src="http://media.ksl.com/monad-002.jpg" style="display: block; margin: 0 auto;">' +
+        '<img src="http://media.ksl.com/monad-002.jpg" style="display: block; margin: 0 auto; width: 100%">' +
         '</div>' +
         '<div id="monadAction">' +
         '<p style="padding: 10px 20px; border-top: 4px solid #1E4D8C; font-weight: 300; font-family: sans-serif; font-size: 1.5em; color: #fff"></p>' +
@@ -163,7 +163,13 @@ MonadWidget.prototype.init = function() {
         scope.actionBar.style.display = 'block';
     });
 
+    this.img.addEventListener('mousemove', function(event){
+        event.preventDefault();
+    });
+    
     this.img.addEventListener('click', function(event){
+        event.preventDefault();
+
         if (solved) {
             return;
         }
