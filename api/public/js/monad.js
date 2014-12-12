@@ -40,6 +40,36 @@ MonadService.prototype.verify = function(adId, x, y) {
 
 /**
  *
+ * @param {string} imgUrl
+ * @param {string} question
+ * @param {number} x1
+ * @param {number} y1
+ * @param {number} x2
+ * @param {number} y2
+ *
+ * @returns {Promise}
+ */
+MonadService.prototype.insert = function(imgUrl, question, x1, y1, x2, y2) {
+    var url = '/index/insert-question';
+    var promise = new Promise(function (resolve, reject){
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var resp = JSON.parse(xhr.responseText);
+                resolve(resp.status);
+            }
+        };
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xhr.send('imageUrl=' + encodeURIComponent(imgUrl) + '&question=' + question + '&validPoints=' + x1 + ',' + y1 + ',' + x2 + ',' + y2);
+    });
+
+    return promise;
+};
+
+/**
+ *
  * @param {MonadService} service
  * @constructor
  */
@@ -87,6 +117,10 @@ MonadWidget.prototype.bindTo = function(container) {
     container.appendChild(this.widget);
 };
 
+/**
+ *
+ * @param {HTMLElement} container
+ */
 MonadWidget.prototype.calculateXY = function(event) {
     var cumulativeOffset = function(element) {
         var top = 0, left = 0;
@@ -136,7 +170,7 @@ MonadWidget.prototype.init = function() {
 
         attempts += 1;
 
-        if (attempts < maxAttempts) {
+        if (attempts <= maxAttempts) {
             var cords = scope.calculateXY(event);
             var x = cords[0], y = cords[1];
             console.log(cords);
@@ -173,15 +207,17 @@ MonadWidget.prototype.init = function() {
  * @param {string} img
  * @param {string} target
  * @param {string} imgEl
+ * @param {string} questionEl
  * @constructor
  */
-var MonadBuilder = function(service, img, target, imgEl) {
+var MonadBuilder = function(service, img, target, imgEl, questionEl) {
     /** @type {MonadService} */
     this.service = service;
 
     this.img = document.getElementById(img);
     this.target = document.getElementById(target);
     this.imgIn = document.getElementById(imgEl);
+    this.questionIn = document.getElementById(questionEl);
 
     this.mouseDown = false;
     this.ptStart = {x: 0, y: 0};
@@ -244,5 +280,7 @@ MonadBuilder.prototype.render = function(dt) {
 };
 
 MonadBuilder.prototype.save = function(){
-    console.log('saved');
+    this.service.insert(this.img.src, this.questionIn.value, this.ptStart.x, this.ptStart.y, this.ptEnd.x, this.ptEnd.y).then(function(res){
+        alert('Success!');
+    });
 };
