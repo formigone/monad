@@ -4,33 +4,12 @@
             <h2>MONAD Builder</h2>
             <hr/>
             <div class="form-group">
-                <input type="text" class="form-control input-lg" name="img" id="imgUrl" placeholder="Image URL" value="http://media.ksl.com/monad">
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="hidden" name="x1" id="x1" class="form-control input-lg" placeholder="0">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="hidden" name="y1" id="y1" class="form-control input-lg" placeholder="0">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="hidden" name="x2" id="x2" class="form-control input-lg" placeholder="0">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <input type="hidden" name="y2" id="y2" class="form-control input-lg" placeholder="0">
-                    </div>
-                </div>
+                <input type="text" class="form-control input-lg" name="img" id="imgUrl" placeholder="Image URL" value="http://media.ksl.com/monad-005.jpg">
             </div>
 
             <div style="position: relative; top: 0; left: 0; height: 400px;">
                 <img src="" id="monadImg" style="position: absolute; "/>
+                <div id="monadTarget" style="background: #c00; opacity: 0.25; position: absolute; top: -100px; left: -100px; width: 0; height: 0; border: 5px dashed #fff; box-shadow: 0 0 10px #000; display: none"></div>
             </div>
             <hr class="colorgraph">
             <div class="row">

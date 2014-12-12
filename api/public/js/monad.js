@@ -146,23 +146,17 @@ MonadWidget.prototype.init = function() {
  *
  * @param {MonadService} service
  * @param {string} img
+ * @param {string} target
  * @param {string} imgEl
- * @param {number} x1El
- * @param {number} y1El
- * @param {number} x2El
- * @param {number} y2El
  * @constructor
  */
-var MonadBuilder = function(service, img, imgEl, x1El, y1El, x2El, y2El) {
+var MonadBuilder = function(service, img, target, imgEl) {
     /** @type {MonadService} */
     this.service = service;
 
     this.img = document.getElementById(img);
+    this.target = document.getElementById(target);
     this.imgIn = document.getElementById(imgEl);
-    this.x1In = document.getElementById(x1El);
-    this.y1In = document.getElementById(y1El);
-    this.x2In = document.getElementById(x2El);
-    this.y2In = document.getElementById(y2El);
 
     this.mouseDown = false;
     this.ptStart = {x: 0, y: 0};
@@ -171,34 +165,57 @@ var MonadBuilder = function(service, img, imgEl, x1El, y1El, x2El, y2El) {
     this.init();
 };
 
+/**
+ *
+ */
 MonadBuilder.prototype.init = function(){
     var scope = this;
     this.imgIn.addEventListener('blur', function(event){
         scope.img.src = event.target.value;
     });
 
-    this.img.addEventListener('mousedown', function(event){
+    this.img.parentElement.addEventListener('mousedown', function(event){
+        event.preventDefault();
+
         scope.mouseDown = true;
+        scope.target.style.display = 'block';
         scope.ptStart.x = event.offsetX;
         scope.ptStart.y = event.offsetY;
+        scope.ptEnd.x = event.offsetX;
+        scope.ptEnd.y = event.offsetY;
     });
 
-    this.img.addEventListener('mouseup', function(event){
+    this.img.parentElement.addEventListener('mouseup', function(event){
+        event.preventDefault();
+
         scope.mouseDown = false;
         scope.ptEnd.x = event.offsetX;
         scope.ptEnd.y = event.offsetY;
     });
 
-    this.img.addEventListener('mousemove', function(event){
-        scope.ptEnd.x = event.offsetX;
-        scope.ptEnd.y = event.offsetY;
+    this.img.parentElement.addEventListener('mousemove', function(event){
+        event.preventDefault();
+
+        if (scope.mouseDown) {
+            scope.ptEnd.x = event.offsetX;
+            scope.ptEnd.y = event.offsetY;
+        }
     });
 
     this.render(0);
 };
 
+/**
+ *
+ * @param {number} dt Delta time
+ */
 MonadBuilder.prototype.render = function(dt) {
     window.requestAnimationFrame(this.render.bind(this));
+
+    this.target.style.left = this.ptStart.x + 'px';
+    this.target.style.top = this.ptStart.y + 'px';
+    this.target.style.width = (this.ptEnd.x - this.ptStart.x) + 'px';
+    this.target.style.height = (this.ptEnd.y - this.ptStart.y) + 'px';
 };
 
 MonadBuilder.prototype.save = function(){
