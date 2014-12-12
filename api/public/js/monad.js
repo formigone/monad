@@ -87,6 +87,30 @@ MonadWidget.prototype.bindTo = function(container) {
     container.appendChild(this.widget);
 };
 
+MonadWidget.prototype.calculateXY = function(event) {
+    var cumulativeOffset = function(element) {
+        var top = 0, left = 0;
+        do {
+            top += element.offsetTop  || 0;
+            left += element.offsetLeft || 0;
+            element = element.offsetParent;
+        } while(element);
+
+        return {
+            top: top,
+            left: left
+        };
+    };
+    var el = event.target;
+    var offset = cumulativeOffset(el);
+    var x_r = el.naturalWidth / el.width;
+    var y_r = el.naturalHeight / el.height;
+    var x = Math.round((event.pageX - offset.left) * x_r);
+    var y = Math.round((event.pageY - offset.top) * y_r);
+
+    return [x, y];
+}
+
 /**
  *
  */
@@ -113,8 +137,9 @@ MonadWidget.prototype.init = function() {
         attempts += 1;
 
         if (attempts < maxAttempts) {
-            var x = event.offsetX;
-            var y = event.offsetY;
+            var cords = scope.calculateXY(event);
+            var x = cords[0], y = cords[1];
+            console.log(cords);
 
             scope.actionBar.style.backgroundColor = scope.colors.default;
             scope.titleBar.style.backgroundColor = scope.colors.default;
