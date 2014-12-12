@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+            <h2>MONAD Builder</h2>
+            <hr/>
+            <div class="form-group">
+                <p>
+                    <input type="text" class="form-control input-lg" id="imgUrl" placeholder="Image URL" value="http://media.ksl.com/monad-005.jpg">
+                </p>
+
+                <p>
+                    <input type="text" class="form-control input-lg" id="question" placeholder="Action message">
+                </p>
+            </div>
+
+            <canvas id="monadCanvas"></canvas>
+            <hr class="colorgraph">
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-success btn-block btn-lg" id="submit">Save</button>
+                </div>
+            </div>
+            <p><hr/></p>
+
+            <div class="well">
+                <h3>Manual</h3>
+
+                <ul>
+                    <li><strong>Click </strong> and drag to draw a rectangular target</li>
+                    <li><strong>Shift + Click</strong> three or more points to draw a polygon target</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/monad.js"></script>
+<script src="/js/canvas.js"></script>
