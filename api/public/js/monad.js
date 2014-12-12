@@ -439,8 +439,15 @@ MonadCanvasBuilder.prototype.render = function() {
     }
 };
 
+/**
+ * 
+ */
 MonadCanvasBuilder.prototype.save = function(){
-    this.service.insert(this.img.src, this.questionIn.value, this.ptStart.x, this.ptStart.y, this.ptEnd.x, this.ptEnd.y).then(function(res){
-        alert('Success!');
-    });
+    if (this.ptPoly.length === 0) {
+        this.service.insert(this.img.src, this.questionIn.value, this.ptStart.x, this.ptStart.y, this.ptEnd.x, this.ptEnd.y).then(function(res){
+            alert('Success!');
+        });
+    } else {
+        alert('Polygon targets not {{yet}} supported =(');
+    }
 };
